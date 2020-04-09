@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>刮刮卡</title>
+		<style>
+			
+	.kap{
+		width: 300px;
+		height: 150px;		
+		border-right: 4px solid #ffda20;
+		border-top: 2px solid #ffda20;
+		transform: rotate(-15deg);
+		background:repeating-radial-gradient(200% 100% at left bottom ,#FFE5B6,#FFDB69,#FFC813,#D39600,#FBBC0F);
+		box-shadow: -2px 1px 2px  #FFE6B3;
+		margin: 100px auto;
+		transition: .5s;
+		position: relative;
+		display: flex;
+	    padding-left: 10px;
+		border-radius: 10px;
+	}		
+			
+		.kap:hover{
+				box-shadow: -10px 10px 15px  #501B15;
+			
+		}	
+			
+	.kap  h3{
+		position: absolute;
+	    margin-top: 10px;
+		color: #DE3E0E;
+	    font-size: 30px;
+		
+	}		
+		
+		.kap  p{
+			position: absolute;
+			 margin-top: 50px;
+			font-size: 20px;
+			color: #657057;
+			font-weight: bold;
+			
+		}	
+			 
+		.gjq  p{
+			position: absolute;
+			 margin-top: 100px;
+			font-size: 18px;
+			color: #0C1019;
+			font-weight: bold;
+			
+		}	
+			
+	 .card{
+			width: 200px;
+			height: 40px;
+			border: 1px solid #0C1019;
+		    margin: 0 auto;
+			color: #FF0057;
+			position: absolute;
+			border: 1px solid red;
+			bottom: 16px;
+			margin-left: 70px;
+			background-color: #FFFFFF;
+		}	
+			
+		.card > span{
+			width: 100%;
+			height: 100%;
+		    position: absolute;
+			text-align: center;
+			font-size: 30px;
+			
+		
+		}
+			
+			canvas{
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			
+		</style>
+		
+		
+	</head>
+	<body>
+
+
+
+
+<div class="kap">
+<h3>刮刮卡</h3>
+	<p>好礼刮出来</p>
+	<!-- 刮奖区 -->
+	<div class="gjq">
+		<p>刮奖区:</p>
+		<div class="card">
+		 	<span id="span">200元</span>
+			<canvas id="canvas"></canvas>
+			 
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+
+
+<!-- 
+		
+		
+		 -->
+		<script>
+			var canvas=document.getElementById("canvas");
+			init();
+			
+			function init(){
+				canvas.width=200;
+				canvas.height=40;
+				var ctx=canvas.getContext("2d");
+				getnumber();
+				drawCove(ctx);
+				drawStroke(ctx);
+			}
+			function getnumber(){
+				
+			var span=document.getElementById("span");
+			var arr=['100元','100元','200元','200元','200元','100元','谢谢惠顾','谢谢惠顾',
+			'谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾',
+			'谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾','谢谢惠顾']
+			var text=arr[randomInt(0,arr.length-1)];
+			span.innerHTML=text;
+           
+			}
+			//产生随机数
+			function randomInt(from,to){
+				return parseInt( Math.random()*(to-from+1)+from );
+				
+			}
+			//绘制覆盖层=》灰色
+			function drawCove(ctx){
+				ctx.save();
+				ctx.fillStyle="rgb(100,100,100)";
+				ctx.fillRect(0,0,200,40);
+				ctx.restore();
+				
+			}
+			function drawStroke(ctx){
+				//开始进入
+				canvas.onmousedown=function(e){
+					var downX=e.offsetX;
+					var downY=e.offsetY;
+					ctx.beginPath();
+					ctx.globalCompositeOperation='destination-out';
+					ctx.lineWidth=5;
+					ctx.moveTo(downX,downY);
+					
+					// console.log(e.offsetX);
+					//画线
+					canvas.onmousemove = function(e){
+						
+						var x=e.offsetX;
+						var y=e.offsetY;
+						ctx.lineTo(x,y);
+						ctx.stroke();
+						
+						
+					}
+					
+				}
+				canvas.onmouseup=function(){
+						canvas.onmousemove= null;
+					
+				}
+			
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>
